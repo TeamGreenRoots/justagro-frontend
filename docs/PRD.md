@@ -1,36 +1,12 @@
 # JustAgro PRD
 ## Overview
 ### Introduction
-Problem Statement 
-Across agricultural supply chains in Nigeria, thousands of smallholder farmers sell produce 
-through informal networks of agro-aggregators and local buyers. While these transactions 
-happen every day, most of them leave no reliable digital record. 
-When a farmer delivers produce to an aggregator or collection center, payment confirmation is 
-often unclear. Farmers may be told that payment has been initiated, delayed, or processed 
-through a bank transfer, but they rarely receive an immediate, verifiable receipt proving that the 
-transaction actually occurred. 
-This creates several systemic problems: 
-1. Lack of transaction proof 
-Farmers often rely on verbal confirmations, handwritten notes, or WhatsApp messages as 
-evidence of payment. These are not trusted records and are easily disputed. 
-2. Delayed payment visibility 
-Even when payments are eventually made through banks or fintech platforms, farmers may wait 
-hours or days before receiving confirmation. During this period, trust breaks down between 
-farmers, aggregators, and buyers. 
-3. No verifiable financial history 
-Because most agricultural transactions are undocumented, farmers cannot build a reliable 
-financial track record. This makes it difficult for them to qualify for credit, microloans, or formal 
-financial services. 
-4. Disputes in the supply chain 
-Without a transparent record of deliveries and payments, disagreements frequently occur 
-between farmers, aggregators, and buyers about what was delivered, what was paid, and when 
-payment was confirmed. 
-In a country where agriculture contributes significantly to livelihoods and food supply, the 
-absence of simple, verifiable payment records creates friction, mistrust, and financial exclusion 
-across the entire supply chain. 
-There is currently no lightweight system designed specifically for agro-aggregators to instantly 
-confirm and record payments at the moment produce is delivered, creating a trusted ledger that 
-both farmers and buyers can rely on.
+JustAgro is a lightweight digital platform designed to bring transparency, trust, and structure to informal agricultural trade in local markets.
+In many agricultural ecosystems, especially in emerging markets, transactions between farmers, aggregators, and buyers are largely undocumented, leading to delayed payments, disputes, and lack of financial visibility. 
+Farmers often deliver produce without clear proof of transaction, while buyers and aggregators operate without a unified system to track deliveries and payments.
+JustAgro addresses this gap by providing a simple, role-based system that enables aggregators to log produce deliveries, buyers to confirm payments, and farmers to receive instant, verifiable proof of transaction through digital receipts.
+The product focuses on a critical moment in the value chain; **delivery-to-payment confirmation**, ensuring that every completed transaction is recorded, traceable, and trusted by all parties involved.
+This document outlines the problem space, target users, product approach, and the core requirements guiding the development of JustAgro.
 ### Product Overview
 JustAgro is a lightweight transaction platform designed to digitally capture, confirm, and record 
 agricultural produce payments at the exact moment they happen. 
