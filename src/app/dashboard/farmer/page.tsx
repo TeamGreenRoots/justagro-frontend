@@ -7,7 +7,7 @@ import api from "@/lib/api";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, StatCard, Spinner, Empty } from "@/components/ui";
 import { formatNaira, formatDate, statusColor, printReceipt, cn } from "@/lib/utils";
-import type { Farmer, Transaction } from "@/types";
+import type { Farmer, Inventory, Transaction } from "@/types";
 
 // Two separate queries — dashboard for wallet/stats, transactions for the table
 const fetchDashboard   = () => api.get("/farmer/dashboard/me").then(r => r.data.data);
@@ -124,7 +124,7 @@ export default function FarmerDashboard() {
             ))}
             {farmer.cropTypes?.length > 0 && (
               <div className="flex flex-wrap gap-1.5 pt-1">
-                {farmer.cropTypes.map((c, i) => (
+                {farmer.cropTypes.map((c: string, i: number) => (
                   <span key={i} className="bg-brand-50 text-brand-700 text-xs px-2.5 py-1 rounded-full font-medium border border-brand-100">{c}</span>
                 ))}
               </div>
@@ -144,7 +144,7 @@ export default function FarmerDashboard() {
             <Empty title="No stock listed" desc="Add your produce to get started" />
           ) : (
             <div className="space-y-2">
-              {farmer.inventory.slice(0, 4).map(inv => (
+            {farmer.inventory.slice(0, 4).map((inv: Inventory) => (
                 <div key={inv.id} className="flex items-center justify-between py-2 border-b border-slate-50 last:border-0">
                   <div>
                     <p className="text-sm font-medium text-slate-800">{inv.cropType}</p>

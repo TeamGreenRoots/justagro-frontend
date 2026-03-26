@@ -9,13 +9,16 @@ import toast from "react-hot-toast";
 import { registerUser, loginUser, getDashboardPath } from "@/lib/auth";
 import type { Role } from "@/types";
 
+import { Suspense } from "react";
+
 const ROLES: { id: Role; icon: LucideIcon; label: string; desc: string }[] = [
   { id: "FARMER",     icon: Wheat,         label: "Farmer",     desc: "I grow and sell produce" },
   { id: "BUYER",      icon: ShoppingCart,  label: "Buyer",      desc: "I purchase from farmers" },
   { id: "AGGREGATOR", icon: Building2,     label: "Aggregator", desc: "I manage the platform" },
 ];
 
-export default function RegisterPage() {
+
+function RegisterContent() {
   const router     = useRouter();
   const params     = useSearchParams();
   const initRole   = (params.get("role")?.toUpperCase() as Role) || "FARMER";
@@ -255,5 +258,13 @@ export default function RegisterPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense>
+      <RegisterContent />
+    </Suspense>
   );
 }
