@@ -39,3 +39,18 @@ input:focus, textarea:focus, select:focus {
 }
 .animate-fade-up { animation: fadeUp 0.4s ease forwards; }
 .animate-fade-in { animation: fadeIn 0.3s ease forwards; }
+
+
+/* <<<<< Trust bar marquee >>>>> */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  animation: marquee 25s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
