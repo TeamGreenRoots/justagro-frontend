@@ -384,7 +384,7 @@ The farmer receives proof that payment was completed and can keep a record of th
 - Created buyer selection and payment confirmation logic
 - Integrated and prepared the Interswitch payment layer
 - Connected the receipt and transaction history experience
-- Handled basic designs including landing page
+- Handled all UI/UX designs including landing page
 
 
 ## Project Status
