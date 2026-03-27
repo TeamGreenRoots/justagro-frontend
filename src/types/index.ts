@@ -82,7 +82,7 @@ export interface Transaction {
   paidAt?:        string;
   createdAt:      string;
   updatedAt:      string;
-  farmer?:        { user: { name: string } };
+  farmer?:        { user: { name: string }; farmName?: string; location?: string };
   buyerContact?:  BuyerContact;
   buyer?:         { user: { name: string; phone: string } };
   receipt?:       Receipt | null;

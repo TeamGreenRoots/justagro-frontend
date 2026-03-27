@@ -1,7 +1,7 @@
 "use client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { Wallet, TrendingUp, Package, Clock, Copy, CheckCircle, ExternalLink, Download, Share2, Sparkles, Lightbulb, Smile } from "lucide-react";
+import { Wallet, TrendingUp, Package, Clock, Copy, CheckCircle, ExternalLink, Download, Share2, Sparkles, Wheat } from "lucide-react";
 import toast from "react-hot-toast";
 import api from "@/lib/api";
 import DashboardLayout from "@/components/layout/DashboardLayout";
@@ -30,7 +30,7 @@ export default function FarmerDashboard() {
       const res = await api.get("/ai/farmer-advice");
       setAiData(res.data.result);
     } catch {
-      setAiData({ greeting: "Hello!", encouragement: "Keep farming!", topAdvice: ["Keep your inventory updated", "Add quality notes to listings"], performance: "" });
+      setAiData({ greeting: "Hello!", encouragement: "Your farm is your business. Keep listing quality stock.", topAdvice: ["Keep your inventory updated", "Add quality notes to listings"], performance: "" });
     } finally { setAiLoading(false); }
   }
 
@@ -51,13 +51,7 @@ export default function FarmerDashboard() {
   if (!farmer) return null;
 
   return (
-    // <DashboardLayout title={`Welcome, ${farmer.user.name.split(" ")[0]}`}>
-    <DashboardLayout title={
-      <span className="flex items-center gap-2">
-        Welcome, {farmer.user.name.split(" ")[0]}
-        <Smile className="w-5 h-5 text-green-800" />
-      </span>
-    }>
+    <DashboardLayout title={`Welcome, ${farmer.user.name.split(" ")[0]} 👋`}>
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
@@ -108,7 +102,7 @@ export default function FarmerDashboard() {
             <div className="flex items-center justify-between border-t border-white/10 pt-3">
               <div>
                 <p className="text-white/50 text-xs">Bank</p>
-                <p className="text-sm font-semibold mt-0.5">{farmer.bankName || "Access Bank"}</p>
+                <p className="text-sm font-semibold mt-0.5">{farmer.bankName || " Wallet"}</p>
               </div>
               <div className="text-right">
                 <p className="text-white/50 text-xs">Balance</p>
@@ -147,7 +141,19 @@ export default function FarmerDashboard() {
             </a>
           </div>
           {!farmer.inventory?.length ? (
-            <Empty title="No stock listed" desc="Add your produce to get started" />
+            <div className="flex flex-col items-center justify-center py-12 text-center px-4">
+              <div className="w-14 h-14 bg-brand-50 rounded-2xl flex items-center justify-center mb-4">
+                <Wheat className="w-7 h-7 text-brand-300" />
+              </div>
+              <p className="font-semibold text-slate-700 mb-1">No stock listed yet</p>
+              <p className="text-slate-400 text-sm leading-relaxed max-w-xs mb-4">
+                Ask your aggregator to add your produce so buyers can see it and make payments.
+              </p>
+              <div className="bg-amber-50 border border-amber-100 rounded-xl px-4 py-3 text-left max-w-xs">
+                <p className="text-amber-700 text-xs font-semibold mb-1">How to get stock listed</p>
+                <p className="text-amber-600 text-xs leading-relaxed">Contact your aggregator and ask them to log your produce on JustAgro. They can add it from their Farmers dashboard.</p>
+              </div>
+            </div>
           ) : (
             <div className="space-y-2">
               {farmer.inventory.slice(0, 4).map((inv: Inventory) => (
@@ -201,18 +207,8 @@ export default function FarmerDashboard() {
                     ))}
                   </ul>
                 )}
-                {aiData.pricingTip &&
-                  <div className="flex items-center text-yellow-300">
-                    <Lightbulb />
-                    <p className=" text-xs italic"> {aiData.pricingTip}</p>
-                  </div>
-
-                }
-
-                <div className="flex items-center gap-2">
-                  <img src="/logos/justagro.jpeg" alt="" className="w-5 h-5 mt-2" />
-                  <p className="text-white/70 text-xs mt-2">{aiData.encouragement}</p>
-                </div>
+                {aiData.pricingTip && <p className="text-yellow-300 text-xs italic">💡 {aiData.pricingTip}</p>}
+                <p className="text-white/70 text-xs mt-2">{aiData.encouragement}</p>
               </div>
             ) : null}
           </div>
@@ -228,6 +224,7 @@ export default function FarmerDashboard() {
           </a>
         </div>
 
+        {/* Column headers */}
         <div className="hidden md:grid grid-cols-4 gap-2 px-6 py-2 bg-slate-50 border-b border-slate-100 text-xs font-semibold text-slate-400 uppercase tracking-wide">
           <span className="col-span-2">Produce / Buyer</span>
           <span>Buyer Paid</span>
@@ -237,7 +234,12 @@ export default function FarmerDashboard() {
         <div className="divide-y divide-slate-50">
           {!transactions.length ? (
             <div className="px-6 py-10 text-center">
-              <p className="text-slate-400 text-sm font-medium">No transactions yet</p>
+              <div className="flex flex-col items-center justify-center py-8 text-center px-4">
+                <p className="font-semibold text-slate-600 text-sm mb-1">No transactions yet</p>
+                <p className="text-slate-400 text-xs leading-relaxed max-w-xs">
+                  When a buyer pays for your produce through JustAgro, your transactions will appear here and your wallet will be credited.
+                </p>
+              </div>
               <p className="text-slate-300 text-xs mt-1">Transactions appear once a buyer makes a payment</p>
             </div>
           ) : (
@@ -267,7 +269,7 @@ export default function FarmerDashboard() {
                           className="w-6 h-6 rounded bg-brand-50 text-brand-600 hover:bg-brand-100 flex items-center justify-center">
                           <Download className="w-3 h-3" />
                         </button>
-                        <a href={`https://wa.me/?text=${encodeURIComponent(`✅ Receipt: ${txn.cropType} ${txn.quantity}kg = ₦${txn.totalAmount.toLocaleString()} | Ref: ${txn.txnRef}`)}`}
+                        <a href={`https://wa.me/?text=${encodeURIComponent(` Receipt: ${txn.cropType} ${txn.quantity}kg = ₦${txn.totalAmount.toLocaleString()} | Ref: ${txn.txnRef}`)}`}
                           target="_blank" rel="noreferrer"
                           className="w-6 h-6 rounded bg-emerald-50 text-emerald-600 hover:bg-emerald-100 flex items-center justify-center">
                           <Share2 className="w-3 h-3" />

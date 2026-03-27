@@ -1,13 +1,16 @@
 "use client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { Loader2, CheckCircle, AlertCircle, Building2, ArrowRight, Info, TriangleAlert } from "lucide-react";
+import { Loader2, CheckCircle, AlertCircle, Building2, ArrowRight, Info } from "lucide-react";
 import toast from "react-hot-toast";
 import api from "@/lib/api";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, Spinner } from "@/components/ui";
 import { formatNaira } from "@/lib/utils";
 
+// ── Hardcoded bank list — Interswitch institution codes ─────
+// Using 3-letter Interswitch codes as required by Payouts API
+// Test account: 0037320662 / TRP (always succeeds in sandbox)
 const BANKS = [
   { code: "TRP", name: "🧪 TEST BANK (Sandbox — use 0037320662)" },
   { code: "ABP", name: "Access Bank" },
@@ -49,45 +52,45 @@ const fetchDashboard = () => api.get("/farmer/dashboard/me").then(r => r.data.da
 
 export default function WithdrawPage() {
   const qc = useQueryClient();
-  const [amount,   setAmount]   = useState("");
-  const [accNum,   setAccNum]   = useState("");
+  const [amount, setAmount] = useState("");
+  const [accNum, setAccNum] = useState("");
   const [bankCode, setBankCode] = useState("");
-  const [accName,  setAccName]  = useState("");
-  const [loading,  setLoading]  = useState(false);
-  const [error,    setError]    = useState("");
-  const [success,  setSuccess]  = useState<any>(null);
+  const [accName, setAccName] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState<any>(null);
 
   const { data: farmer, isLoading } = useQuery({
     queryKey: ["farmer-dashboard"],
-    queryFn:  fetchDashboard,
+    queryFn: fetchDashboard,
   });
 
-  const balance      = farmer?.walletBalance || 0;
+  const balance = farmer?.walletBalance || 0;
   const selectedBank = BANKS.find(b => b.code === bankCode);
-  const isSandbox    = bankCode === "TRP";
+  const isSandbox = bankCode === "TRP";
 
   async function handleWithdraw(e: React.FormEvent) {
     e.preventDefault();
     setError("");
     const amt = parseFloat(amount);
-    if (!amt || amt <= 0)       { setError("Enter a valid amount"); return; }
-    if (amt < 100)              { setError("Minimum withdrawal: ₦100"); return; }
-    if (amt > balance)          { setError(`Max: ${formatNaira(balance)}`); return; }
-    if (!bankCode)              { setError("Select your bank"); return; }
-    if (accNum.length !== 10)   { setError("Account number must be 10 digits"); return; }
-    if (!accName.trim())        { setError("Enter the account name"); return; }
+    if (!amt || amt <= 0) { setError("Enter a valid amount"); return; }
+    if (amt < 100) { setError("Minimum withdrawal: ₦100"); return; }
+    if (amt > balance) { setError(`Max: ${formatNaira(balance)}`); return; }
+    if (!bankCode) { setError("Select your bank"); return; }
+    if (accNum.length !== 10) { setError("Account number must be 10 digits"); return; }
+    if (!accName.trim()) { setError("Enter the account name"); return; }
 
     setLoading(true);
     try {
       const res = await api.post("/farmer/withdraw", {
         amount,
         recipientAccount: accNum,
-        recipientBank:    bankCode,
-        accountName:      accName.trim().toUpperCase(),
+        recipientBank: bankCode,
+        accountName: accName.trim().toUpperCase(),
       });
       setSuccess(res.data);
       qc.invalidateQueries({ queryKey: ["farmer-dashboard"] });
-      toast.success("Withdrawal initiated!!");
+      toast.success("Withdrawal initiated! 🎉");
     } catch (err: any) {
       setError(err.response?.data?.message || err.response?.data?.error || "Withdrawal failed");
     } finally {
@@ -104,6 +107,7 @@ export default function WithdrawPage() {
 
   if (isLoading) return <DashboardLayout title="Withdraw Funds"><Spinner text="Loading..." /></DashboardLayout>;
 
+  // ── Success ─────────────────────────────────────────────
   if (success) return (
     <DashboardLayout title="Withdraw Funds">
       <div className="max-w-md mx-auto">
@@ -117,11 +121,11 @@ export default function WithdrawPage() {
           </div>
           <div className="p-6 space-y-0">
             {[
-              ["Status",      success.status],
-              ["Bank",        BANKS.find(b => b.code === success.recipientBank)?.name?.replace("🧪 ", "") || success.recipientBank],
-              ["Account",     success.recipientAccount],
-              ["Name",        success.accountName],
-              ["Reference",   success.transactionReference],
+              ["Status", success.status],
+              ["Bank", BANKS.find(b => b.code === success.recipientBank)?.name?.replace("🧪 ", "") || success.recipientBank],
+              ["Account", success.recipientAccount],
+              ["Name", success.accountName],
+              ["Reference", success.transactionReference],
               ["New Balance", formatNaira(success.newBalance)],
             ].map(([l, v]) => (
               <div key={l} className="flex justify-between py-2.5 border-b border-slate-50 last:border-0 text-sm">
@@ -148,6 +152,7 @@ export default function WithdrawPage() {
     </DashboardLayout>
   );
 
+  // ── Form ─────────────────────────────────────────────────
   return (
     <DashboardLayout title="Withdraw Funds">
       <div className="max-w-md mx-auto space-y-4">
@@ -211,7 +216,7 @@ export default function WithdrawPage() {
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1.5">Select Bank *</label>
               <select
-              aria-label="bank-select"
+                aria-label="bank-select"
                 value={bankCode}
                 onChange={e => setBankCode(e.target.value)}
                 className={ic}
@@ -227,7 +232,7 @@ export default function WithdrawPage() {
               )}
               {isSandbox && (
                 <p className="text-amber-600 text-xs mt-1 font-medium">
-                  <TriangleAlert /> Use account number: 0037320662 with this bank
+                  Use account number: 0037320662 with this bank
                 </p>
               )}
             </div>
@@ -266,11 +271,11 @@ export default function WithdrawPage() {
                   Interswitch Transfer Summary
                 </p>
                 {[
-                  ["Amount",  formatNaira(parseFloat(amount))],
-                  ["Bank",    selectedBank?.name?.replace("🧪 ", "") || bankCode],
-                  ["Code",    bankCode],
+                  ["Amount", formatNaira(parseFloat(amount))],
+                  ["Bank", selectedBank?.name?.replace("🧪 ", "") || bankCode],
+                  ["Code", bankCode],
                   ["Account", accNum],
-                  ["Name",    accName.toUpperCase()],
+                  ["Name", accName.toUpperCase()],
                 ].map(([l, v]) => (
                   <div key={l} className="flex justify-between text-sm">
                     <span className="text-brand-600">{l}</span>
@@ -301,4 +306,3 @@ export default function WithdrawPage() {
     </DashboardLayout>
   );
 }
-

@@ -3,30 +3,30 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Eye, EyeOff, Leaf, Loader2, ArrowRight, Building2, Wheat, ShoppingCart, type LucideIcon } from "lucide-react";
+import { Eye, EyeOff, Leaf, Loader2, ArrowRight } from "lucide-react";
 import toast from "react-hot-toast";
 import { loginUser, getDashboardPath } from "@/lib/auth";
 
-const DEMO_ACCOUNTS: { role: string; icon: LucideIcon; phone: string; password: string; color: string }[] = [
-  { role: "Aggregator",          icon: Building2,     phone: "08000000001", password: "demo1234", color: "bg-purple-50 border-purple-200 text-purple-800" },
-  { role: "Farmer (with stock)", icon: Wheat,         phone: "08000000002", password: "demo1234", color: "bg-emerald-50 border-emerald-200 text-emerald-800" },
-  { role: "Buyer",               icon: ShoppingCart,  phone: "08000000004", password: "demo1234", color: "bg-blue-50 border-blue-200 text-blue-800" },
-  { role: "Farmer (new)",        icon: Wheat,         phone: "08000000003", password: "demo1234", color: "bg-slate-50 border-slate-200 text-slate-600" },
+const DEMO_ACCOUNTS = [
+  { role: "Aggregator", sub: "Full platform access", phone: "08000000001", password: "demo1234", color: "bg-purple-50 border-purple-200 text-purple-800" },
+  { role: "Farmer", sub: "Has stock + history", phone: "08000000002", password: "demo1234", color: "bg-emerald-50 border-emerald-200 text-emerald-800" },
+  { role: "Buyer", sub: "Pending orders", phone: "08000000004", password: "demo1234", color: "bg-blue-50 border-blue-200 text-blue-800" },
+  // { role: "Farmer (new)",      sub: "No transactions yet",  phone: "08000000003", password: "demo1234", color: "bg-slate-50 border-slate-200 text-slate-600" },
 ];
 
 export default function LoginPage() {
   const router = useRouter();
-  const [phone,    setPhone]    = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [showPw,   setShowPw]   = useState(false);
-  const [loading,  setLoading]  = useState(false);
-  const [error,    setError]    = useState("");
+  const [showPw, setShowPw] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
     if (!phone.trim()) { setError("Phone number is required"); return; }
-    if (!password)     { setError("Password is required");     return; }
+    if (!password) { setError("Password is required"); return; }
     setLoading(true);
     try {
       const user = await loginUser(phone.trim(), password);
@@ -41,7 +41,7 @@ export default function LoginPage() {
     setPhone(acc.phone);
     setPassword(acc.password);
     setError("");
-    toast.success(`Filled: ${acc.role}`);
+    toast.success(`${acc.role} credentials filled`);
   }
 
   return (
@@ -53,9 +53,9 @@ export default function LoginPage() {
         <div className="relative z-10 flex flex-col justify-between p-12 w-full">
           {/* logo */}
           <div className="flex items-center gap-2">
-          <Link href="/" className="w-9 h-9 rounded-lg flex items-center justify-center  transition-colors">
-            <img src="/logos/justagro.jpeg" alt="JustAgro" className="w-full h-full object-contain" />
-          </Link>
+            <Link href="/" className="w-9 h-9 rounded-lg flex items-center justify-center  transition-colors">
+              <img src="/logos/justagro.jpeg" alt="JustAgro" className="w-full h-full object-contain" />
+            </Link>
             <Link href="/" className="font-display text-white text-xl font-semibold">JustAgro</Link>
           </div>
           <div>
@@ -93,12 +93,10 @@ export default function LoginPage() {
             <div className="grid grid-cols-2 gap-2">
               {DEMO_ACCOUNTS.map((acc, i) => (
                 <button key={i} type="button" onClick={() => fillDemo(acc)}
-                  className={`p-3 rounded-xl border-2 text-left transition-all hover:scale-[1.02] ${acc.color}`}>
-                  <p className="text-xs font-bold flex items-center gap-1.5">
-                    <acc.icon className="w-3.5 h-3.5 flex-shrink-0" />
-                    {acc.role}
-                  </p>
-                  <p className="text-xs font-mono mt-0.5 opacity-70">{acc.phone}</p>
+                  className={`p-3 rounded-xl border-2 text-left transition-all hover:scale-[1.02] active:scale-[0.98] ${acc.color}`}>
+                  <p className="text-xs font-bold">{acc.role}</p>
+                  <p className="text-xs opacity-60 mt-0.5">{acc.sub}</p>
+                  <p className="text-xs font-mono mt-1 opacity-50">{acc.phone}</p>
                 </button>
               ))}
             </div>
@@ -110,9 +108,15 @@ export default function LoginPage() {
             )}
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1.5">Phone Number</label>
-              <input type="tel" value={phone} onChange={e => setPhone(e.target.value)}
-                placeholder="08012345678" autoComplete="off"
-                className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 text-sm placeholder:text-slate-400 bg-white focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent hover:border-slate-300 transition-all" />
+              <input
+                type="tel"
+                value={phone}
+                onChange={e => setPhone(e.target.value.replace(/\D/g, "").slice(0, 11))}
+                placeholder="08012345678"
+                maxLength={11}
+                autoComplete="off"
+                className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 text-sm placeholder:text-slate-400 bg-white focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent hover:border-slate-300 transition-all"
+              />
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1.5">Password</label>

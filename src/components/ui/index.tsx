@@ -136,9 +136,13 @@ export function Badge({ label, className }: { label: string; className?: string 
 }
 
 // CARD 
-export function Card({ children, className }: { children: React.ReactNode; className?: string }) {
+export function Card({ children, className, padding = true }: {
+  children: React.ReactNode;
+  className?: string;
+  padding?: boolean;
+}) {
   return (
-    <div className={cn("bg-white rounded-2xl border border-slate-100 shadow-card", className)}>
+    <div className={cn("bg-white rounded-2xl border border-slate-100 shadow-card", padding && "p-6", className)}>
       {children}
     </div>
   );

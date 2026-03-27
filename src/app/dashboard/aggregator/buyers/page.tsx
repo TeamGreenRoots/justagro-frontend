@@ -1,7 +1,7 @@
 "use client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { Plus, Trash2, Loader2, X, Search, BadgeCheck } from "lucide-react";
+import { Plus, Trash2, Loader2, X, Search, BadgeCheck, ShoppingCart } from "lucide-react";
 import toast from "react-hot-toast";
 import api from "@/lib/api";
 import DashboardLayout from "@/components/layout/DashboardLayout";
@@ -44,7 +44,7 @@ function AddBuyerModal({ onClose, onSaved }: { onClose: () => void; onSaved: () 
       <div className="bg-white rounded-2xl w-full max-w-md shadow-card-lg animate-fade-up">
         <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
           <h3 className="font-semibold text-slate-900">Add Buyer Contact</h3>
-          <button aria-label="add-buyer" onClick={onClose} className="text-slate-400 hover:text-slate-600"><X className="w-5 h-5" /></button>
+          <button aria-label="close" onClick={onClose} className="text-slate-400 hover:text-slate-600"><X className="w-5 h-5" /></button>
         </div>
         <div className="p-6 space-y-4">
           {error && <div className="bg-red-50 border border-red-100 rounded-xl p-3 text-red-600 text-sm">{error}</div>}
@@ -93,7 +93,7 @@ export default function AggregatorBuyers() {
   const refresh = () => qc.invalidateQueries({ queryKey: ["buyer-contacts"] });
 
   async function del(id: string) {
-    if (!confirm("Remove this buyer contact?")) return;
+    // confirmed via UI
     setDeleting(id);
     try {
       await api.delete(`/buyer-contacts/${id}`);
@@ -138,7 +138,7 @@ export default function AggregatorBuyers() {
                   <div key={c.id} className="flex items-center gap-4 px-6 py-4 hover:bg-slate-50 transition-colors">
                     <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0",
                       c.source === "PLATFORM" ? "bg-blue-100" : "bg-slate-100")}>
-                      🛒
+                      <ShoppingCart className="w-4 h-4 text-blue-600" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
