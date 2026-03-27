@@ -391,21 +391,43 @@ The farmer receives proof that payment was completed and can keep a record of th
 
 MVP in progress for hackathon submission.
 
-## Bug Fixes Report
+## Iteration Log
 
-> >- Fixed route ordering: /dashboard/me and /profile/me before /:id
-> 
->  (Express was treating "dashboard" as an ID param — transactions empty)
-> 
->- Fixed buyer transaction visibility: match by phone number not just buyerId
-> 
->  (buyers linked via BuyerContact now see their orders)
-> 
->- Fixed credit score: zero transactions = zero score (was returning 8)
-> 
->- Fixed Interswitch verify: sandbox fallback only on network error not Z25
-> 
->- Fixed inventory /browse route as public before authenticate middleware
+During development, we identified and resolved several issues that were affecting transaction visibility, routing logic, and verification reliability. These fixes improved the stability of the core user flow and strengthened the integrity of the product.
+
+### Key Fixes Implemented
+
+- **Route ordering corrected**
+- 
+  We moved `/dashboard/me` and `/profile/me` above the `/:id` route so the app no longer interprets static routes like `dashboard` as dynamic IDs. This fixed an issue where transaction data was not loading correctly for authenticated users.
+
+- **Buyer transaction visibility improved**
+- 
+  We updated buyer transaction matching logic to use phone number-based mapping in addition to buyer ID. This ensures that buyers linked through `BuyerContact` can now see their associated orders correctly.
+
+- **Credit score calculation corrected**
+- 
+  We fixed the credit scoring logic so that users with zero transactions now correctly receive a score of `0` instead of an inflated score of `8`. This makes the scoring output more accurate and trustworthy.
+
+- **Interswitch verification fallback refined**
+- 
+  We updated payment verification logic so sandbox fallback is only triggered on genuine network errors, not on `Z25` responses. This prevents false fallback behavior and keeps payment status handling more reliable.
+
+- **Public inventory route fixed**
+- 
+  We moved `/browse` ahead of the authentication middleware so the inventory page can load publicly as intended before login is required.
+
+### Product Impact
+
+These fixes improved:
+
+- Transaction visibility
+- Buyer order access
+- Route reliability
+- Payment verification accuracy
+- Overall platform trustworthiness
+
+They also helped stabilize the MVP for demo and review purposes.
 
 
 ## Future Improvements
