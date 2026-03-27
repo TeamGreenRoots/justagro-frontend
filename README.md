@@ -299,8 +299,113 @@ yarn lint         # ESLint
 - [Termii Docs](https://developers.termii.com)
 - [Gemini API](https://ai.google.dev)
 - [Neon](https://neon.tech)
+  
 
 ---
+
+# JustAgro Overview
+
+JustAgro is a transaction transparency platform for agricultural trade.
+
+It is designed to help aggregators, farmers, and buyers record produce deliveries, confirm payments, and generate trusted transaction receipts at the moment trade happens. Instead of depending on verbal confirmation, screenshots, or scattered paper notes, JustAgro creates a clear digital record of each transaction.
+
+The product focuses on one high-friction moment in the agricultural value chain: the point where produce is delivered and payment must be confirmed.
+
+## Problem
+
+Agricultural transactions in informal markets are often difficult to track. Farmers may not receive immediate proof of payment, aggregators struggle to reconcile deliveries with buyer payments, and buyers lack a structured way to document purchases. This creates mistrust, delays, and weak financial records across the supply chain.
+
+## Solution
+
+JustAgro solves this by creating a simple, role-based transaction flow:
+
+- Aggregators log produce deliveries
+- Buyers confirm payment for a specific delivery
+- The system verifies the transaction and generates a digital receipt
+- Transaction history is stored for future reference
+
+The result is a lightweight system that improves transparency, accountability, and trust in agricultural commerce.
+
+## Core Product Flow
+
+1. A farmer delivers produce to an aggregator
+2. The aggregator logs the delivery in JustAgro
+3. The aggregator selects or adds the buyer linked to that delivery
+4. The buyer receives a unique transaction link
+5. The buyer confirms payment
+6. JustAgro updates the transaction status to paid
+7. A receipt is generated and stored for both parties
+
+## Interswitch Integration
+
+JustAgro is built to work with Interswitch payment infrastructure for transaction integration.
+
+The platform uses Interswitch as the payment layer that supports the verification of buyer payments and transaction completion. This makes the product feel real, trustworthy, and connected to production-grade financial rails rather than a purely mock workflow.
+
+In the hackathon MVP, the payment step can be demonstrated through Interswitch sandbox or simulated confirmation logic, depending on available access.
+
+## Key Features
+
+- Delivery logging by aggregators
+- Saved buyer list for faster transaction entry
+- Unique payment link for each delivery
+- Payment status tracking from pending to paid
+- Digital receipt generation
+- Transaction history for farmers, aggregators, and buyers
+
+## User Roles
+
+### Aggregator
+The aggregator is the primary operator of the system. They record the delivery, assign the buyer, and trigger the transaction flow.
+
+### Buyer
+The buyer confirms the payment for a recorded delivery using a simple transaction link.
+
+### Farmer
+The farmer receives proof that payment was completed and can keep a record of the transaction.
+
+## Team Contributions
+
+### Product Manager — Rita Ntekim
+- Defined the product vision and hackathon scope
+- Wrote the PRD and refined the core transaction flow
+- Owned product direction, prioritization, and execution structure
+- Documented user flows and repo organization
+- Generated Logo and necessities for brand identity
+
+### Product Manager — Belinda Mahachi
+- Led survey generation and user needs validation
+- Collected insights that shaped the product direction
+- Helped define the core problem and user pain points
+
+### Software Engineer — Michelle Utomi
+- Built both frontend and backend for the product
+- Implemented the delivery logging and transaction flow
+- Created buyer selection and payment confirmation logic
+- Integrated and prepared the Interswitch payment layer
+- Connected the receipt and transaction history experience
+- Handled basic designs including landing page
+
+
+## Project Status
+
+MVP in progress for hackathon submission.
+
+
+## Future Improvements
+
+- SMS and WhatsApp delivery of receipts
+- USSD support for low-tech users
+- Offline-friendly delivery capture
+- Analytics dashboard for aggregators
+- Expanded payment and reporting features
+
+## Repository Structure
+
+- [`docs/`](docs/) — Contains all product documentation including PRD, user research, competitive analysis, and product decisions  
+- [`src/`](src/) — Houses the application codebase (frontend and backend services)  
+- [`assets/`](assets/) — Includes system diagrams, flowcharts, and visual references used during development
+  
 
 Built by TeamGreenRoots  
 Interswitch Hackathon 2026
