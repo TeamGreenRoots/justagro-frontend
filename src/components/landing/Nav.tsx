@@ -25,7 +25,7 @@ export default function Nav() {
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
 
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 group">
+        {/* <Link href="/" className="flex items-center gap-2.5 group">
           <div className="w-8 h-8 bg-brand-900 rounded-lg flex items-center justify-center group-hover:bg-brand-800 transition-colors">
             <Leaf className="w-4 h-4 text-white" />
           </div>
@@ -34,8 +34,18 @@ export default function Nav() {
           }`}>
             JustAgro
           </span>
+        </Link> */}
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <div className="w-9 h-9 rounded-lg flex items-center justify-center  transition-colors">
+            <img src="/logos/justagro.jpeg" alt="JustAgro" className="w-full h-full object-contain" />
+          </div>
+          <span className={`font-display text-xl font-bold transition-colors ${
+            scrolled ? "text-brand-900" : "text-white"
+          }`}>
+            JustAgro
+          </span>
         </Link>
-
+        
         {/* Desktop links */}
         <div className="hidden md:flex items-center gap-8">
           {[

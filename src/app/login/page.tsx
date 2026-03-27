@@ -51,11 +51,12 @@ export default function LoginPage() {
         <Image src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1400&q=85"
           alt="Farmer" fill className="object-cover opacity-40" priority />
         <div className="relative z-10 flex flex-col justify-between p-12 w-full">
+          {/* logo */}
           <div className="flex items-center gap-2">
-            <div className="w-9 h-9 bg-white/20 rounded-xl flex items-center justify-center border border-white/30">
-              <Leaf className="w-5 h-5 text-white" />
-            </div>
-            <span className="font-display text-white text-xl font-semibold">JustAgro</span>
+          <Link href="/" className="w-9 h-9 rounded-lg flex items-center justify-center  transition-colors">
+            <img src="/logos/justagro.jpeg" alt="JustAgro" className="w-full h-full object-contain" />
+          </Link>
+            <Link href="/" className="font-display text-white text-xl font-semibold">JustAgro</Link>
           </div>
           <div>
             <h2 className="font-display text-4xl text-white font-semibold leading-snug mb-6">
