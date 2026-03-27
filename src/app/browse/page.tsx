@@ -35,18 +35,17 @@ export default function BrowsePage() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans">
       {/* Nav */}
-      <nav className="bg-white border-b border-slate-100 px-6 py-4 sticky top-0 z-40">
+      <nav className="bg-[#f8f8f8] border-b border-slate-100 px-6 py-4 sticky top-0 z-40">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-brand-900 rounded-lg flex items-center justify-center">
-              <Leaf className="w-4 h-4 text-white" />
-            </div>
-            <span className="font-display font-semibold text-brand-900">JustAgro</span>
+          <div  className="flex items-center gap-2">
+            {/* <div className="w-8 h-8 bg-brand-900 rounded-lg flex items-center justify-center"></div> */}
+            <img src="/logos/justagro-logo.png" alt="JustAgro Logo" className=" h-12 object-contain" />
+            {/* <span className="font-display font-semibold text-brand-900">JustAgro</span> */}
             <span className="hidden sm:inline text-slate-400 text-sm ml-1">/ Browse Produce</span>
           </div>
 
           {!user ? (
-            <div className="flex gap-3">
+            <div className="flex items-center gap-3">
               <Link href="/login" className="text-sm font-medium text-slate-600 hover:text-brand-700 transition-colors">
                 Sign In
               </Link>
@@ -107,7 +106,7 @@ export default function BrowsePage() {
             {produce.map((inv: any) => (
               <div key={inv.id} className="bg-white rounded-2xl border border-slate-100 shadow-card hover:shadow-card-lg transition-all p-6">
                 <div className="flex items-start justify-between mb-4">
-                  <div className="w-12 h-12 bg-brand-50 rounded-xl flex items-center justify-center text-2xl">🌾</div>
+                  <div className="w-8 h-8 rounded-xl flex items-center justify-center text-2xl"> <img src="/logos/justagro.jpeg" alt="JustAgro Logo" className="w-full h-full object-contain" /> </div>
                   <span className="bg-emerald-100 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full">
                     AVAILABLE
                   </span>

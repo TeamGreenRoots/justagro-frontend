@@ -4,21 +4,21 @@ import { Leaf } from "lucide-react";
 
 const links = {
   Platform: [
-    { label: "Browse Produce",    href: "/browse" },
-    { label: "Register",          href: "/register" },
-    { label: "Sign In",           href: "/login" },
+    { label: "Browse Produce", href: "/browse" },
+    { label: "Register", href: "/register" },
+    { label: "Sign In", href: "/login" },
     { label: "API Documentation", href: "https://justagro-backend.onrender.com/api-docs" },
   ],
   Roles: [
-    { label: "For Farmers",      href: "/register?role=FARMER" },
-    { label: "For Buyers",       href: "/register?role=BUYER" },
-    { label: "For Aggregators",  href: "/register?role=AGGREGATOR" },
+    { label: "For Farmers", href: "/register?role=FARMER" },
+    { label: "For Buyers", href: "/register?role=BUYER" },
+    { label: "For Aggregators", href: "/register?role=AGGREGATOR" },
   ],
   Built_With: [
-    { label: "Interswitch",  href: "https://docs.interswitchgroup.com" },
-    { label: "Gemini AI",    href: "https://ai.google.dev" },
-    { label: "Termii",       href: "https://developers.termii.com" },
-    { label: "Neon Postgres",href: "https://neon.tech" },
+    { label: "Interswitch", href: "https://docs.interswitchgroup.com" },
+    { label: "Gemini AI", href: "https://ai.google.dev" },
+    { label: "Termii", href: "https://developers.termii.com" },
+    { label: "Neon Postgres", href: "https://neon.tech" },
   ],
 };
 
@@ -30,12 +30,14 @@ export default function Footer() {
 
           {/* Brand */}
           <div className="md:col-span-2">
+
             <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-8 h-8 bg-brand-800 rounded-lg flex items-center justify-center">
-                <Leaf className="w-4 h-4 text-white" />
-              </div>
-              <span className="font-display text-white text-xl font-semibold">JustAgro</span>
+              <Link href="/" className="w-8 h-8 rounded-lg flex items-center justify-center">
+                <img src="/logos/justagro.jpeg" alt="JustAgro" className="w-full h-full object-contain" />
+              </Link>
+              <Link href="/" className="font-display text-white text-xl font-semibold">JustAgro</Link>
             </div>
+
             <p className="text-slate-400 text-sm leading-relaxed mb-4 max-w-xs">
               End-to-end agricultural payment and inventory platform. Connecting Nigerian
               farmers, aggregators, and buyers through verified Interswitch transactions.

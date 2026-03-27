@@ -53,10 +53,11 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
       {/* Logo */}
       <div className="px-6 py-5 border-b border-slate-100">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-brand-900 rounded-lg flex items-center justify-center">
+          {/* <div className="w-8 h-8 bg-brand-900 rounded-lg flex items-center justify-center">
             <Leaf className="w-4 h-4 text-white" />
-          </div>
-          <span className="font-display font-semibold text-lg text-brand-900">JustAgro</span>
+          </div> */}
+          {/* <span className="font-display font-semibold text-lg text-brand-900">JustAgro</span> */}
+        <img src="/logos/justagro-logo.png" alt="JustAgro Logo" className="w-40 h-auto object-contain" />
         </div>
       </div>
 
@@ -109,7 +110,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
 
 export default function DashboardLayout({ children, title }: {
   children: React.ReactNode;
-  title?:   string;
+  title?:   string | React.ReactNode;
 }) {
   const router  = useRouter();
   const user    = getUser();
