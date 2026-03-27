@@ -1,7 +1,7 @@
 "use client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { Wallet, TrendingUp, Package, Clock, Copy, CheckCircle, ExternalLink, Download, Share2, Sparkles, Lightbulb, Stars } from "lucide-react";
+import { Wallet, TrendingUp, Package, Clock, Copy, CheckCircle, ExternalLink, Download, Share2, Sparkles, Lightbulb, Smile } from "lucide-react";
 import toast from "react-hot-toast";
 import api from "@/lib/api";
 import DashboardLayout from "@/components/layout/DashboardLayout";
@@ -10,17 +10,17 @@ import { formatNaira, formatDate, statusColor, printReceipt, cn } from "@/lib/ut
 import type { Farmer, Inventory, Transaction } from "@/types";
 
 // Two separate queries — dashboard for wallet/stats, transactions for the table
-const fetchDashboard   = () => api.get("/farmer/dashboard/me").then(r => r.data.data);
-const fetchTransactions= () => api.get("/transactions?limit=10").then(r => r.data.data);
+const fetchDashboard = () => api.get("/farmer/dashboard/me").then(r => r.data.data);
+const fetchTransactions = () => api.get("/transactions?limit=10").then(r => r.data.data);
 
 export default function FarmerDashboard() {
-  const [copied,    setCopied]    = useState(false);
-  const [showAI,    setShowAI]    = useState(false);
-  const [aiData,    setAiData]    = useState<any>(null);
+  const [copied, setCopied] = useState(false);
+  const [showAI, setShowAI] = useState(false);
+  const [aiData, setAiData] = useState<any>(null);
   const [aiLoading, setAiLoading] = useState(false);
 
-  const { data: farmer, isLoading }  = useQuery({ queryKey: ["farmer-dashboard"], queryFn: fetchDashboard });
-  const { data: transactions = [] }  = useQuery({ queryKey: ["farmer-txns-recent"], queryFn: fetchTransactions });
+  const { data: farmer, isLoading } = useQuery({ queryKey: ["farmer-dashboard"], queryFn: fetchDashboard });
+  const { data: transactions = [] } = useQuery({ queryKey: ["farmer-txns-recent"], queryFn: fetchTransactions });
 
   async function loadAiAdvice() {
     if (aiData) { setShowAI(true); return; }
@@ -30,7 +30,7 @@ export default function FarmerDashboard() {
       const res = await api.get("/ai/farmer-advice");
       setAiData(res.data.result);
     } catch {
-      setAiData({ greeting: "Hello!", encouragement: "Keep farming! 🌾", topAdvice: ["Keep your inventory updated", "Add quality notes to listings"], performance: "" });
+      setAiData({ greeting: "Hello!", encouragement: "Keep farming!", topAdvice: ["Keep your inventory updated", "Add quality notes to listings"], performance: "" });
     } finally { setAiLoading(false); }
   }
 
@@ -51,14 +51,20 @@ export default function FarmerDashboard() {
   if (!farmer) return null;
 
   return (
-    <DashboardLayout title={`Welcome, ${farmer.user.name.split(" ")[0]} 👋`}>
+    // <DashboardLayout title={`Welcome, ${farmer.user.name.split(" ")[0]}`}>
+    <DashboardLayout title={
+      <span className="flex items-center gap-2">
+        Welcome, {farmer.user.name.split(" ")[0]}
+        <Smile className="w-5 h-5 text-green-800" />
+      </span>
+    }>
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <StatCard icon={<Wallet className="w-5 h-5" />}     label="Wallet Balance"   value={formatNaira(farmer.walletBalance)}   color="bg-emerald-50 text-emerald-700" sub="After 1% fee" />
-        <StatCard icon={<TrendingUp className="w-5 h-5" />} label="Total Earned"     value={formatNaira(farmer.totalEarned)}     color="bg-blue-50 text-blue-700"    sub="Gross amount" />
-        <StatCard icon={<Package className="w-5 h-5" />}    label="Available Stock"  value={farmer.inventory?.length ?? 0}       color="bg-amber-50 text-amber-700"  sub="Items listed" />
-        <StatCard icon={<Clock className="w-5 h-5" />}      label="Pending Orders"   value={farmer.stats?.pendingCount ?? 0}     color="bg-purple-50 text-purple-700" />
+        <StatCard icon={<Wallet className="w-5 h-5" />} label="Wallet Balance" value={formatNaira(farmer.walletBalance)} color="bg-emerald-50 text-emerald-700" sub="After 1% fee" />
+        <StatCard icon={<TrendingUp className="w-5 h-5" />} label="Total Earned" value={formatNaira(farmer.totalEarned)} color="bg-blue-50 text-blue-700" sub="Gross amount" />
+        <StatCard icon={<Package className="w-5 h-5" />} label="Available Stock" value={farmer.inventory?.length ?? 0} color="bg-amber-50 text-amber-700" sub="Items listed" />
+        <StatCard icon={<Clock className="w-5 h-5" />} label="Pending Orders" value={farmer.stats?.pendingCount ?? 0} color="bg-purple-50 text-purple-700" />
       </div>
 
       {/* Earnings breakdown */}
@@ -144,7 +150,7 @@ export default function FarmerDashboard() {
             <Empty title="No stock listed" desc="Add your produce to get started" />
           ) : (
             <div className="space-y-2">
-            {farmer.inventory.slice(0, 4).map((inv: Inventory) => (
+              {farmer.inventory.slice(0, 4).map((inv: Inventory) => (
                 <div key={inv.id} className="flex items-center justify-between py-2 border-b border-slate-50 last:border-0">
                   <div>
                     <p className="text-sm font-medium text-slate-800">{inv.cropType}</p>
@@ -195,8 +201,18 @@ export default function FarmerDashboard() {
                     ))}
                   </ul>
                 )}
-                {aiData.pricingTip && <p className="text-yellow-300 text-xs italic"><Lightbulb /> {aiData.pricingTip}</p>}
-                <p className="text-white/70 text-xs mt-2">{aiData.encouragement}</p>
+                {aiData.pricingTip &&
+                  <div className="flex items-center text-yellow-300">
+                    <Lightbulb />
+                    <p className=" text-xs italic"> {aiData.pricingTip}</p>
+                  </div>
+
+                }
+
+                <div className="flex items-center gap-2">
+                  <img src="/logos/justagro.jpeg" alt="" className="w-5 h-5 mt-2" />
+                  <p className="text-white/70 text-xs mt-2">{aiData.encouragement}</p>
+                </div>
               </div>
             ) : null}
           </div>
