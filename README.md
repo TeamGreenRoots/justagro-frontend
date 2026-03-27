@@ -391,6 +391,22 @@ The farmer receives proof that payment was completed and can keep a record of th
 
 MVP in progress for hackathon submission.
 
+## Bug Fixes Report
+
+> >- Fixed route ordering: /dashboard/me and /profile/me before /:id
+> 
+>  (Express was treating "dashboard" as an ID param — transactions empty)
+> 
+>- Fixed buyer transaction visibility: match by phone number not just buyerId
+> 
+>  (buyers linked via BuyerContact now see their orders)
+> 
+>- Fixed credit score: zero transactions = zero score (was returning 8)
+> 
+>- Fixed Interswitch verify: sandbox fallback only on network error not Z25
+> 
+>- Fixed inventory /browse route as public before authenticate middleware
+
 
 ## Future Improvements
 
