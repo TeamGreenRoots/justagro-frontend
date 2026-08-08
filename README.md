@@ -1,5 +1,9 @@
 # JustAgro Frontend
 
+My Role — Product Manager
+
+Led product strategy and prioritization for the project, including defining the MVP scope, documenting product requirements, and aligning the team around the core payment verification workflow.
+
 Next.js 14 client for the JustAgro agricultural payment platform. Three-role fintech application — Farmer, Buyer, Aggregator — integrated with Interswitch for payments and Google Gemini for AI features.
 
 **Live:** https://justagro.vercel.app  
